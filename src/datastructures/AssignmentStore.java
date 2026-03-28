@@ -1,7 +1,6 @@
 package datastructures;
 
 import java.util.List;
-
 import model.Assignment;
 
 // Defines the common operations for storing assignments.
@@ -17,4 +16,6 @@ public interface AssignmentStore {
     boolean isEmpty();
 
     List<Assignment> toList();
+
+    void sort(boolean ascending);
 }
