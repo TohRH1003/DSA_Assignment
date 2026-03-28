@@ -12,10 +12,6 @@ public class GreedyProfitBased {
             return new ScheduleResult(new ArrayList<>(), new ArrayList<>(), 0);
         }
 
-        for (int i = 0; i < assignments.size(); i++) {
-            System.out.println(assignments.get(i));
-        }
-
         // Sort the assignment in descending order based on mark
         assignments.sort(false);
 

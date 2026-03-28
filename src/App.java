@@ -7,14 +7,14 @@ import model.*;
 // Main entry point for the assignment project.
 public class App {
     public static void main(String[] args) { // Currently is just for testing purpose
-
+        testGreedy();
     }
 
     public static void testGreedy() {
         // Create a random assignment generator
         RandomAssignmentGenerator generator = new RandomAssignmentGenerator();
         // Generate a list of random assignments
-        List<Assignment> assignments = generator.generate(10, 1, 8, 10, 100);
+        List<Assignment> assignments = generator.generate(5, 1, 3, 10, 100);
         AssignmentStore store = new ArrayAssignmentStore();
         store.addAll(assignments);
 
