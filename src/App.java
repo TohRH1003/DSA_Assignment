@@ -1,84 +1,152 @@
 import algorithm.*;
 import datastructures.*;
 import io.*;
+import model.*;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.*;
-import model.*;
 
-// Main entry point for the assignment project.
 public class App {
-    public static void main(String[] args) { // Currently is just for testing purpose
-        testGreedy2();
-    }
+    private static final Scanner scanner = new Scanner(System.in);
 
-    public static void testGreedy() {
-        // Create a random assignment generator
-        RandomAssignmentGenerator generator = new RandomAssignmentGenerator();
-        // Generate a list of random assignments
-        List<Assignment> assignments = generator.generate(5, 1, 3, 10, 100);
-        AssignmentStore store = new ArrayAssignmentStore();
-        store.addAll(assignments);
+    public static void main(String[] args) {
+    	
+        System.out.println("=== JOB SEQUENCING (ASSIGNMENT SCHEDULING) ===\n");
 
-        ScheduleResult result = GreedyProfitBased.assignmentSequence(store);
-
-        System.out.println("total mark");
-        System.out.println(result.getTotalMarks());
-
-        System.out.println("\nSelected");
-        for (int i = 0; i < result.getSelectedJobs().size(); i++) {
-            System.out.println(result.getSelectedJobs().get(i).getAssignment());
-        }
-
-        System.out.println("\nUnselected");
-        for (int i = 0; i < result.getUnselectedJobs().size(); i++) {
-            System.out.println(result.getUnselectedJobs().get(i));
-        }
-
-    }
-
-    public static void testGreedy2() {
-        Path csvPath = Path.of("assignments.csv");
-        AssignmentFileReader reader = new AssignmentFileReader();
-
-        List<Assignment> assignments;
-        try {
-            assignments = reader.readFromCsv(csvPath);
-        } catch (IOException e) {
-            System.out.println("Failed to read CSV file: " + csvPath);
-            System.out.println(e.getMessage());
+        // Choose data source
+        List<Assignment> assignments = loadAssignments();
+        if (assignments == null || assignments.isEmpty()) {
+            System.out.println("No assignments loaded. Exiting.");
             return;
         }
 
-        if (assignments.isEmpty()) {
-            System.out.println("No assignment data found in: " + csvPath);
+        // Store assignments 
+        AssignmentStore store = new ArrayAssignmentStore();
+        store.addAll(assignments);
+        
+        
+
+        //Step 3: Choose algorithm
+        int algoChoice = chooseAlgorithm();
+        
+        
+
+        //Step 4: Solve
+        ScheduleResult result = null;
+        if (algoChoice == 1) {
+            result = GreedyProfitBased.assignmentSequence(store);
+        } else if (algoChoice == 2) {
+            result = Backtracking.findOptimalSchedule(store);
+        } else {
+            System.out.println("Invalid algorithm choice.");
             return;
         }
 
-        AssignmentStore store = new ArrayAssignmentStore();
-        store.addAll(assignments);
+        
+        
+        //Step 5: Display result 
+        displayResult(result);
+    }
 
-        ScheduleResult result = GreedyProfitBased.assignmentSequence(store);
+    private static List<Assignment> loadAssignments() {
+        System.out.println("Please choose the data source:");
+        System.out.println("  1. Read from CSV file");
+        System.out.println("  2. Generate random assignments");
+        System.out.println("Your choice: ");
+        int choice = readInt();
 
-        System.out.println("CSV file");
-        System.out.println(csvPath.toAbsolutePath());
+        if (choice == 1) {
+            System.out.print("Enter CSV file path (e.g., assignments.csv): ");
+            String path = scanner.nextLine();
+            AssignmentFileReader reader = new AssignmentFileReader();
+            
+            
+            
+            try {
+                return reader.readFromCsv(Path.of(path));
+                
+            } catch (IOException e) {
+                System.out.println("Error reading file: " + e.getMessage());
+                return null;
+                }
+            
+            
+        } else if (choice == 2) {
+            System.out.print("Number of assignments: ");
+            int count = readInt();
+            
+            System.out.print("Min deadline: ");
+            int minDead = readInt();
+            
+            System.out.print("Max deadline: ");
+            int maxDead = readInt();
+            
+            System.out.print("Min marks: ");
+            int minMark = readInt();
+            
+            System.out.print("Max marks: ");
+            int maxMark = readInt();
+            
+            
+            RandomAssignmentGenerator gen = new RandomAssignmentGenerator();
+            return gen.generate(count, minDead, maxDead, minMark, maxMark);
+        } else {
+        	
+        	
+            System.out.println("Invalid choice.");
+            return null;
+        }
+    }
 
-        System.out.println("\nLoaded assignments");
-        for (Assignment assignment : assignments) {
-            System.out.println(assignment);
+    private static int chooseAlgorithm() {
+        System.out.println("\nAvailable algorithms:");
+        System.out.println("  1. Greedy (Profit-based)");
+        System.out.println("  2. Backtracking (Exact)");
+        System.out.print("Select algorithm: ");
+        return readInt();
+    }
+
+    private static void displayResult(ScheduleResult result) {
+        System.out.println("\n=== SCHEDULING RESULT ===\n");
+
+        List<ScheduledAssignment> selected = result.getSelectedJobs();
+        if (selected.isEmpty()) {
+            System.out.println("No jobs selected.");
+        } else {
+            System.out.println("Selected assignments (execution order):");
+            System.out.println("Day\tID\tDeadline\tMarks\tTitle");
+            for (ScheduledAssignment sa : selected) {
+                Assignment a = sa.getAssignment();
+                System.out.printf("%d\t%s\t%d\t\t%d\t%s%n",
+                    sa.getScheduledDay(),
+                    a.getId(),
+                    a.getDeadline(),
+                    a.getMarks(),
+                    a.getTitle()
+                );
+            }
+            System.out.println("\nTotal marks: " + result.getTotalMarks());
         }
 
-        System.out.println("\nTotal mark");
-        System.out.println(result.getTotalMarks());
-
-        System.out.println("\nSelected assignments");
-        for (int i = 0; i < result.getSelectedJobs().size(); i++) {
-            System.out.println(result.getSelectedJobs().get(i).getAssignment());
+        System.out.println("\nUnselected assignments:");
+        List<Assignment> unselected = result.getUnselectedJobs();
+        if (unselected.isEmpty()) {
+            System.out.println("  None");
+        } else {
+            for (Assignment a : unselected) {
+                System.out.printf("  %s (%s, deadline=%d, marks=%d)%n",
+                    a.getId(), a.getTitle(), a.getDeadline(), a.getMarks());
+            }
         }
+    }
 
-        System.out.println("\nUnselected assignments");
-        for (int i = 0; i < result.getUnselectedJobs().size(); i++) {
-            System.out.println(result.getUnselectedJobs().get(i));
+    private static int readInt() {
+        while (true) {
+            try {
+                return Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.print("Invalid number. Enter again: ");
+            }
         }
     }
 }
