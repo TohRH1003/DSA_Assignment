@@ -13,7 +13,7 @@ public class GreedyProfitBased {
         }
 
         // Sort the assignment in descending order based on mark
-        assignments.sort(false);
+        assignments.sortByMark(false);
 
         // Call function to get the maximum deadline of the assignments set
         int max_deadline = maxDeadline(assignments);

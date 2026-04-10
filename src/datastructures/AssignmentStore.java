@@ -17,5 +17,5 @@ public interface AssignmentStore {
 
     List<Assignment> toList();
 
-    void sort(boolean ascending);
+    void sortByMark(boolean ascending);
 }
