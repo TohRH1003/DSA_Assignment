@@ -1,0 +1,21 @@
+id,title,deadline,marks
+A01,Linear Search Analysis,2,15
+A02,Binary Search Report,1,25
+A03,Sorting Algorithm Comparison,3,30
+A04,Linked List Implementation,2,18
+A05,Stack Application Exercise,1,20
+A06,Queue Simulation Project,4,28
+A07,Tree Traversal Demo,3,35
+A08,Binary Search Tree Build,2,32
+A09,Heap Operations Task,5,26
+A10,Hash Table Case Study,4,24
+A11,Graph Representation Writeup,3,27
+A12,Breadth First Search Lab,1,22
+A13,Depth First Search Lab,2,21
+A14,Dijkstra Shortest Path,4,40
+A15,Minimum Spanning Tree,5,38
+A16,Dynamic Programming Quiz,2,29
+A17,Greedy Algorithm Homework,1,31
+A18,Backtracking Puzzle Solver,3,33
+A19,Divide and Conquer Essay,4,23
+A20,Final DSA Mini Project,5,50
