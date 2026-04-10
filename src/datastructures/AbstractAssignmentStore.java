@@ -45,7 +45,7 @@ public abstract class AbstractAssignmentStore implements AssignmentStore {
     }
 
     @Override
-    public void sort(boolean ascending) {
+    public void sortByMark(boolean ascending) {
         if (ascending) {
             assignments.sort((Assignment a,Assignment b) -> a.getMarks() - b.getMarks());
         }
