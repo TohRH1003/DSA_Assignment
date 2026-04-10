@@ -24,6 +24,7 @@ public class App {
         AssignmentStore store = new ArrayAssignmentStore();
         store.addAll(assignments);
 
+        //Print the assignment
         assignments.forEach(System.out::println);
 
         // Step 3: Choose algorithm
