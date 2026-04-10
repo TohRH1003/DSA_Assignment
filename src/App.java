@@ -1,16 +1,16 @@
 import algorithm.*;
 import datastructures.*;
 import io.*;
-import model.*;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.*;
+import model.*;
 
 public class App {
     private static final Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
-    	
+
         System.out.println("=== JOB SEQUENCING (ASSIGNMENT SCHEDULING) ===\n");
 
         // Choose data source
@@ -20,31 +20,27 @@ public class App {
             return;
         }
 
-        // Store assignments 
+        // Store assignments
         AssignmentStore store = new ArrayAssignmentStore();
         store.addAll(assignments);
-        
-        
 
-        //Step 3: Choose algorithm
+        assignments.forEach(System.out::println);
+
+        // Step 3: Choose algorithm
         int algoChoice = chooseAlgorithm();
-        
-        
 
-        //Step 4: Solve
+        // Step 4: Solve
         ScheduleResult result = null;
         if (algoChoice == 1) {
             result = GreedyProfitBased.assignmentSequence(store);
         } else if (algoChoice == 2) {
-            result = Backtracking.findOptimalSchedule(store);
+            result = BackTracking.findOptimalSchedule(store);
         } else {
             System.out.println("Invalid algorithm choice.");
             return;
         }
 
-        
-        
-        //Step 5: Display result 
+        // Step 5: Display result
         displayResult(result);
     }
 
@@ -52,50 +48,64 @@ public class App {
         System.out.println("Please choose the data source:");
         System.out.println("  1. Read from CSV file");
         System.out.println("  2. Generate random assignments");
-        System.out.println("Your choice: ");
+        System.out.print("Your choice: ");
         int choice = readInt();
+        List<Assignment> assignments = null;
 
         if (choice == 1) {
-            System.out.print("Enter CSV file path (e.g., assignments.csv): ");
-            String path = scanner.nextLine();
+            String path = "assignments.csv";
             AssignmentFileReader reader = new AssignmentFileReader();
-            
-            
-            
+
             try {
                 return reader.readFromCsv(Path.of(path));
-                
+
             } catch (IOException e) {
                 System.out.println("Error reading file: " + e.getMessage());
                 return null;
-                }
-            
-            
+            }
+
         } else if (choice == 2) {
-            System.out.print("Number of assignments: ");
-            int count = readInt();
-            
-            System.out.print("Min deadline: ");
-            int minDead = readInt();
-            
-            System.out.print("Max deadline: ");
-            int maxDead = readInt();
-            
-            System.out.print("Min marks: ");
-            int minMark = readInt();
-            
-            System.out.print("Max marks: ");
-            int maxMark = readInt();
-            
-            
-            RandomAssignmentGenerator gen = new RandomAssignmentGenerator();
-            return gen.generate(count, minDead, maxDead, minMark, maxMark);
+
+            boolean validInput = false;
+
+            do {
+
+                try {
+                    System.out.print("Number of assignments: ");
+                    int count = readInt();
+
+                    System.out.print("Min deadline: ");
+                    int minDead = readInt();
+
+                    System.out.print("Max deadline: ");
+                    int maxDead = readInt();
+
+                    System.out.print("Min marks: ");
+                    int minMark = readInt();
+
+                    System.out.print("Max marks: ");
+                    int maxMark = readInt();
+
+                    RandomAssignmentGenerator gen = new RandomAssignmentGenerator();
+                    assignments = gen.generate(count, minDead, maxDead, minMark, maxMark);
+
+                    validInput = true;
+                }
+
+                catch (Exception e) {
+                    System.out.println(e.getMessage());
+
+                }
+
+            } while (!validInput);
+
         } else {
-        	
-        	
+
             System.out.println("Invalid choice.");
             return null;
         }
+
+        return assignments;
     }
 
     private static int chooseAlgorithm() {
@@ -118,12 +128,11 @@ public class App {
             for (ScheduledAssignment sa : selected) {
                 Assignment a = sa.getAssignment();
                 System.out.printf("%d\t%s\t%d\t\t%d\t%s%n",
-                    sa.getScheduledDay(),
-                    a.getId(),
-                    a.getDeadline(),
-                    a.getMarks(),
-                    a.getTitle()
-                );
+                        sa.getScheduledDay(),
+                        a.getId(),
+                        a.getDeadline(),
+                        a.getMarks(),
+                        a.getTitle());
             }
             System.out.println("\nTotal marks: " + result.getTotalMarks());
         }
@@ -135,7 +144,7 @@ public class App {
         } else {
             for (Assignment a : unselected) {
                 System.out.printf("  %s (%s, deadline=%d, marks=%d)%n",
-                    a.getId(), a.getTitle(), a.getDeadline(), a.getMarks());
+                        a.getId(), a.getTitle(), a.getDeadline(), a.getMarks());
             }
         }
     }
