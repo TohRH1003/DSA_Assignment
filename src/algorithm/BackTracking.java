@@ -1,10 +1,10 @@
 package algorithm;
 
 import datastructures.AssignmentStore;
-import model.*;
 import java.util.*;
+import model.*;
 
-public class Backtracking {
+public class BackTracking {
 
     private static class Best {
         List<Assignment> selection = new ArrayList<>();
