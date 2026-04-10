@@ -32,17 +32,34 @@ public class App {
 
         // Step 4: Solve
         ScheduleResult result = null;
+
+        // Measure execution time (used for comparing algorithm performance)
+        long startTime = System.nanoTime(); //APPENDED
+
         if (algoChoice == 1) {
             result = GreedyProfitBased.assignmentSequence(store);
         } else if (algoChoice == 2) {
             result = BackTracking.findOptimalSchedule(store);
+        } else if (algoChoice == 3) {
+            result = BruteForce.assignmentSequence(store); //APPENDED
+        } else if (algoChoice == 4) {
+            result = EDFSchedule.assignmentSequence(store); 
         } else {
             System.out.println("Invalid algorithm choice.");
             return;
         }
 
+        // End timing after algorithm execution
+        long endTime = System.nanoTime(); //APPEDNDED
+
+        // Total execution time in nanoseconds
+        long duration = endTime - startTime;
+
         // Step 5: Display result
         displayResult(result);
+
+        // Show performance comparison
+        System.out.println("\nExecution Time: " + duration + "ns (" + (duration/1_000_000.0) + "ms)"); //APPENDED
     }
 
     private static List<Assignment> loadAssignments() {
@@ -67,7 +84,7 @@ public class App {
 
         } else if (choice == 2) {
 
-            boolean validInput = false;
+            boolean validInput = false; 
 
             do {
 
@@ -113,6 +130,8 @@ public class App {
         System.out.println("\nAvailable algorithms:");
         System.out.println("  1. Greedy (Profit-based)");
         System.out.println("  2. Backtracking (Exact)");
+        System.out.println("  3. Brute Force (Profit-based)");
+        System.out.println("  4. Earliest Deadline First (Exact)");
         System.out.print("Select algorithm: ");
         return readInt();
     }
