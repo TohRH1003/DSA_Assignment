@@ -7,7 +7,7 @@ import model.*;
 
 public class GreedyProfitBased {
     public static ScheduleResult assignmentSequence(AssignmentStore assignments) {
-        // Check if store is empty
+        // Check if assignment is empty
         if (assignments == null || assignments.size() == 0) {
             return new ScheduleResult(new ArrayList<>(), new ArrayList<>(), 0);
         }
@@ -15,32 +15,40 @@ public class GreedyProfitBased {
         // Sort the assignment in descending order based on mark
         assignments.sortByMark(false);
 
-        // Call function to get the maximum deadline of the assignments set
+        // Call function to get the maximum deadline of the assignments list
         int max_deadline = maxDeadline(assignments);
 
         // Create a slot array to keep the allotted slot for assignment
         ScheduledAssignment[] scheduled = new ScheduledAssignment[max_deadline];
 
         // t represents the time slot/day where we try to schedule a job, starting from
-        // the job's deadline and moving backwards to find an empty slot.
+        // the assignment deadline and moving backwards to find an empty slot.
         // maxMark is totalMark
         int t;
         int maxMark = 0;
 
-        // Track selected jobs to build result later
+        // Track selected assignment to build result later
         List<ScheduledAssignment> selectedList = new ArrayList<>();
 
+        // Loop through each assignment that has been sorted
         for (int i = 0; i < assignments.size(); i++) {
-            Assignment currentJob = assignments.get(i);
-            t = currentJob.getDeadline() - 1;
+            Assignment currentAssignment = assignments.get(i);
 
+            // Start from the last available time slot before the assignment's deadline
+            // Convert deadline from 1 indexed to 0 indexed in array position
+            t = currentAssignment.getDeadline() - 1; 
+
+            // Find the latest empty time slot on or before the deadline
+            // Move backwards through time slots until we find an empty slot
             while (t >= 0 && scheduled[t] != null) {
-                t--;
+                t--; //If this slot is taken, try earlier slot
             }
 
+            // If we found an available slot (t >= 0) that is empty
             if (t >= 0 && scheduled[t] == null) {
-                scheduled[t] = new ScheduledAssignment(currentJob, t + 1);
-                maxMark += currentJob.getMarks();
+                // Schedule the assignment at this slot, convert back t to the actual day instead of index position
+                scheduled[t] = new ScheduledAssignment(currentAssignment, t + 1);
+                maxMark += currentAssignment.getMarks(); //Add the selected assignment mark to the maxMark
                 selectedList.add(scheduled[t]); // Add to selected list
             }
         }
