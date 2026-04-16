@@ -2,7 +2,9 @@ package algorithm;
 
 import datastructures.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import model.*;
 
 public class GreedyProfitBased {
@@ -36,19 +38,20 @@ public class GreedyProfitBased {
 
             // Start from the last available time slot before the assignment's deadline
             // Convert deadline from 1 indexed to 0 indexed in array position
-            t = currentAssignment.getDeadline() - 1; 
+            t = currentAssignment.getDeadline() - 1;
 
             // Find the latest empty time slot on or before the deadline
             // Move backwards through time slots until we find an empty slot
             while (t >= 0 && scheduled[t] != null) {
-                t--; //If this slot is taken, try earlier slot
+                t--; // If this slot is taken, try earlier slot
             }
 
             // If we found an available slot (t >= 0) that is empty
             if (t >= 0 && scheduled[t] == null) {
-                // Schedule the assignment at this slot, convert back t to the actual day instead of index position
+                // Schedule the assignment at this slot, convert back t to the actual day
+                // instead of index position
                 scheduled[t] = new ScheduledAssignment(currentAssignment, t + 1);
-                totalMark += currentAssignment.getMarks(); //Add the selected assignment mark to the maxMark
+                totalMark += currentAssignment.getMarks(); // Add the selected assignment mark to the maxMark
                 selectedList.add(scheduled[t]); // Add to selected list
             }
         }
@@ -57,16 +60,15 @@ public class GreedyProfitBased {
         List<Assignment> allAssignments = assignments.toList();
         List<Assignment> unselectedList = new ArrayList<>();
 
-        // Build unselected list (jobs not in scheduled array)
+        // Build unselected list (assignment not in scheduled array)
+        Set<String> selectedIds = new HashSet<>();
+        for (ScheduledAssignment sa : selectedList) {
+            selectedIds.add(sa.getAssignment().getId());
+        }
+
+        // Any assignment not in selectedIds is unselected
         for (Assignment assignment : allAssignments) {
-            boolean isSelected = false;
-            for (ScheduledAssignment sa : selectedList) {
-                if (sa.getAssignment().getId().equals(assignment.getId())) {
-                    isSelected = true;
-                    break;
-                }
-            }
-            if (!isSelected) {
+            if (!selectedIds.contains(assignment.getId())) {
                 unselectedList.add(assignment);
             }
         }
