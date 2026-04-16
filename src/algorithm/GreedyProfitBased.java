@@ -25,7 +25,7 @@ public class GreedyProfitBased {
         // the assignment deadline and moving backwards to find an empty slot.
         // maxMark is totalMark
         int t;
-        int maxMark = 0;
+        int totalMark = 0;
 
         // Track selected assignment to build result later
         List<ScheduledAssignment> selectedList = new ArrayList<>();
@@ -48,7 +48,7 @@ public class GreedyProfitBased {
             if (t >= 0 && scheduled[t] == null) {
                 // Schedule the assignment at this slot, convert back t to the actual day instead of index position
                 scheduled[t] = new ScheduledAssignment(currentAssignment, t + 1);
-                maxMark += currentAssignment.getMarks(); //Add the selected assignment mark to the maxMark
+                totalMark += currentAssignment.getMarks(); //Add the selected assignment mark to the maxMark
                 selectedList.add(scheduled[t]); // Add to selected list
             }
         }
@@ -74,7 +74,7 @@ public class GreedyProfitBased {
         // Sort selected by scheduled day
         selectedList.sort((a, b) -> a.getScheduledDay() - b.getScheduledDay());
 
-        return new ScheduleResult(selectedList, unselectedList, maxMark);
+        return new ScheduleResult(selectedList, unselectedList, totalMark);
     }
 
     // Method to find the maximum deadline
