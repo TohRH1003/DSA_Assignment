@@ -9,6 +9,7 @@ public class BackTracking {
     private static class Best {
         List<Assignment> selection = new ArrayList<>();
         int profit = 0;
+        // helper class, a container to holding the best result 
     }
 
     public static ScheduleResult findOptimalSchedule(AssignmentStore store) {
@@ -21,16 +22,19 @@ public class BackTracking {
         // Convert best selection to scheduled days 
         //(sorted by deadline)
         List<Assignment> bestSelection = best.selection;
-        
         bestSelection.sort(Comparator.comparingInt(Assignment::getDeadline));
-        
+
+
+
+        //now assign day numbers, start from 1, in their sorter order 
         List<ScheduledAssignment> scheduled = new ArrayList<>();
         
         for (int i = 0; i < bestSelection.size(); i++) {
             scheduled.add(new ScheduledAssignment(bestSelection.get(i), i + 1));
         }
         
-        
+
+        // remove the chosen jobs from all
         List<Assignment> unselected = new ArrayList<>(allJobs);
         unselected.removeAll(bestSelection);
         
@@ -38,7 +42,8 @@ public class BackTracking {
     }
 
     
-    
+
+    // backtracking for all the subsets of the assignments here
     private static void backtrack(List<Assignment> allJobs, int index,
                                
     		List<Assignment> current, Best best) {
@@ -72,13 +77,15 @@ public class BackTracking {
     private static boolean isFeasible(List<Assignment> jobs) {
     	
         List<Assignment> sorted = new ArrayList<>(jobs);
+
         
         sorted.sort(Comparator.comparingInt(Assignment::getDeadline));
         
         for (int i = 0; i < sorted.size(); i++) {
         	
-            if (sorted.get(i).getDeadline() < i + 1) return false;
+            if (sorted.get(i).getDeadline() < i + 1)
+                return false; //this job would be late
         }
-        return true;
+        return true; //all jobs can finish on time
     }
 }
