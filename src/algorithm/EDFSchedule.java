@@ -75,9 +75,7 @@ public class EDFSchedule {
         int totalMarks = scheduledList.stream()
                 .mapToInt(sa -> sa.getAssignment().getMarks())
                 .sum();
-
-        // 8. Return the structured result (selected sorted by scheduled day)
-        scheduledList.sort(Comparator.comparingInt(ScheduledAssignment::getScheduledDay));
+                
         return new ScheduleResult(scheduledList, unselectedList, totalMarks);
     }
 }
