@@ -5,7 +5,7 @@ A03,Sorting Algorithm Comparison,5,78
 A04,Linked List Implementation,2,38
 A05,Stack Application Exercise,1,20
 A06,Queue Simulation Project,7,92
-A07,Tree Traversal Demo,4,65
+A07,Tree Traversal Demo,14,65
 A08,Binary Search Tree Build,3,58
 A09,Heap Operations Task,8,110
 A10,Hash Table Case Study,6,85
@@ -22,3 +22,5 @@ A20,Final DSA Mini Project,12,150
 A21,AVL Tree Rotation Exercise,8,118
 A22,Red-Black Tree Insertion Lab,9,125
 A23,Graph Traversal Performance Analysis,11,142
+A24,Sorting Visualization Report,6,95
+A25,Recursion Mastery Assignment,4,80
