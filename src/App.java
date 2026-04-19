@@ -154,6 +154,7 @@ public class App {
                         a.getMarks(),
                         a.getTitle());
             }
+            System.out.print("\nTotal assignments selected: " + selected.size());
             System.out.println("\nTotal marks: " + result.getTotalMarks());
         }
 

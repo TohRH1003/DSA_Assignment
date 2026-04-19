@@ -1,21 +1,24 @@
 id,title,deadline,marks
-A01,Linear Search Analysis,2,15
+A01,Linear Search Analysis,3,45
 A02,Binary Search Report,1,25
-A03,Sorting Algorithm Comparison,3,30
-A04,Linked List Implementation,2,18
+A03,Sorting Algorithm Comparison,5,78
+A04,Linked List Implementation,2,38
 A05,Stack Application Exercise,1,20
-A06,Queue Simulation Project,4,28
-A07,Tree Traversal Demo,3,35
-A08,Binary Search Tree Build,2,32
-A09,Heap Operations Task,5,26
-A10,Hash Table Case Study,4,24
-A11,Graph Representation Writeup,3,27
-A12,Breadth First Search Lab,1,22
-A13,Depth First Search Lab,2,21
-A14,Dijkstra Shortest Path,4,40
-A15,Minimum Spanning Tree,5,38
-A16,Dynamic Programming Quiz,2,29
-A17,Greedy Algorithm Homework,1,31
-A18,Backtracking Puzzle Solver,3,33
-A19,Divide and Conquer Essay,4,23
-A20,Final DSA Mini Project,5,50
+A06,Queue Simulation Project,7,92
+A07,Tree Traversal Demo,4,65
+A08,Binary Search Tree Build,3,58
+A09,Heap Operations Task,8,110
+A10,Hash Table Case Study,6,85
+A11,Graph Representation Writeup,4,72
+A12,Breadth First Search Lab,2,44
+A13,Depth First Search Lab,3,63
+A14,Dijkstra Shortest Path,9,140
+A15,Minimum Spanning Tree,10,135
+A16,Dynamic Programming Quiz,5,98
+A17,Greedy Algorithm Homework,2,47
+A18,Backtracking Puzzle Solver,6,105
+A19,Divide and Conquer Essay,7,88
+A20,Final DSA Mini Project,12,150
+A21,AVL Tree Rotation Exercise,8,118
+A22,Red-Black Tree Insertion Lab,9,125
+A23,Graph Traversal Performance Analysis,11,142
