@@ -1,6 +1,6 @@
 package algorithm;
 
-import datastructures.*;
+import framework.*;
 import java.util.*;
 import model.*;
 

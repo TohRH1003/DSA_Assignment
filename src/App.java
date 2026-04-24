@@ -1,5 +1,5 @@
 import algorithm.*;
-import datastructures.*;
+import framework.*;
 import io.*;
 import java.io.IOException;
 import java.nio.file.Path;

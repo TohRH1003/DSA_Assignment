@@ -1,4 +1,4 @@
-package datastructures;
+package framework;
 
 import model.Assignment;
 

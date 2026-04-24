@@ -1,6 +1,6 @@
 package algorithm;
 
-import datastructures.AssignmentStore;
+import framework.AssignmentStore;
 import java.util.*;
 import model.*;
 
