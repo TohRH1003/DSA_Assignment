@@ -23,6 +23,9 @@ public class RandomAssignmentGenerator {
         if (minDeadline > maxDeadline) {
             throw new IllegalArgumentException("Minimum deadline cannot be greater than maximum deadline.");
         }
+        if (maxDeadline > count) {
+            throw new IllegalArgumentException("Maximum deadline cannot exceed the number of assignments.");
+        }
         if (minMarks > maxMarks) {
             throw new IllegalArgumentException("Minimum marks cannot be greater than maximum marks.");
         }
